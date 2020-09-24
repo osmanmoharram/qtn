@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeniedQuotationsTable extends Migration
+class CreateCustomerQuotationProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateDeniedQuotationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('denied_quotations', function (Blueprint $table) {
+        Schema::create('customer_quotation_product', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('quotation_id');
-            $table->text('reason');
-            $table->unsignedBigInteger('employee_id');
+            $table->integer('quantity');
+            $table->integer('unit_price');
+            $table->timestamps();
 
+            $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('quotation_id')->references('id')->on('quotations');
-            $table->foreign('employee_id')->references('id')->on('employees');
         });
     }
 
@@ -31,6 +33,6 @@ class CreateDeniedQuotationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('denied_quotations');
+        Schema::dropIfExists('product_quotation');
     }
 }

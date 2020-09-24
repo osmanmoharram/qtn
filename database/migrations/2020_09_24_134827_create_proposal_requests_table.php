@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuotationsTable extends Migration
+class CreateProposalRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateQuotationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('quotations', function (Blueprint $table) {
+        Schema::create('proposal_requests', function (Blueprint $table) {
             $table->id();
             $table->date('request_date');
-            $table->string('department')->unique();
-            $table->unsignedBigInteger('customer_id');
-            $table->string('status')->default('new');
+            $table->unsignedBigInteger('user_id');
+            $table->string('title');
+            $table->enum('status', ['new', 'approved', 'denied']);
+            $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -31,6 +32,6 @@ class CreateQuotationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quotations');
+        Schema::dropIfExists('proposal_requests');
     }
 }
