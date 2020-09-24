@@ -14,12 +14,13 @@ class CreateBranchesTable extends Migration
     public function up()
     {
         Schema::create('branches', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('location')->unique();
-            $table->unsignedBigInteger('admin_id');
-            
-            $table->foreign('admin_id')->references('id')->on('admins');
+            $table->increments('id');
+            $table->string('name')->unique();
+            $table->string('location');
+            $table->unsignedInteger('user_id')->nullable(); // user with role: branch manager
+            $table->timestamps();
+
+            $table->foreign('user_id', 'fk_branches_users_user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 
