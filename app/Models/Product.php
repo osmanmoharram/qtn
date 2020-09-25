@@ -8,34 +8,34 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-
-    public function quotation()
-    {
-        return $this->belongsTo(\App\Models\Quotation::class);
-    }
-
+    
     public function category()
     {
         return $this->belongsTo(\App\Models\Category::class);
     }
 
-    public function dispatch_request_product()
+    public function quotation_products()
     {
-        return $this->belongsTo(\App\Models\DispatchRequestProduct::class);
+        return $this->hasMany(\App\Models\QuotationProduct::class);
     }
 
-    public function proposal_request_product()
+    public function dispatch_request_products()
     {
-        return $this->belongsTo(\App\Models\ProposalRequestProduct::class);
+        return $this->hasMany(\App\Models\DispatchRequestProduct::class);
     }
 
-    public function supplier_quotation_product()
+    public function proposal_request_products()
     {
-        return $this->belongsTo(\App\Models\SupplierQuotationProduct::class);
+        return $this->hasMany(\App\Models\ProposalRequestProduct::class);
     }
 
-    public function purchase_order_product()
+    public function supplier_quotation_products()
     {
-        return $this->belongsTo(\App\Models\PurchaseOrderProduct::class);
+        return $this->hasMany(\App\Models\SupplierQuotationProduct::class);
+    }
+
+    public function purchase_order_products()
+    {
+        return $this->hasMany(\App\Models\PurchaseOrderProduct::class);
     }
 }

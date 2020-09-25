@@ -24,7 +24,7 @@ class SupplierQuotation extends Model
         return $this->belongsTo(\App\Models\Supplier::class);
     }
 
-    public function supplier_quotation_product()
+    public function supplier_quotation_products()
     {
         return $this->hasMany(\App\Models\SupplierQuotationProduct::class);
     }

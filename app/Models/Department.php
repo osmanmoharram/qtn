@@ -9,17 +9,17 @@ class Department extends Model
 {
     use HasFactory;
 
-    public function quotation()
+    public function quotations()
     {
         return $this->hasMany(\App\Models\Quotation::class);
     }
 
-    public function dispatch_request()
+    public function dispatch_requests()
     {
         return $this->hasMany(\App\Models\DispatchRequest::class);
     }
 
-    public function supplier_quotation()
+    public function supplier_quotations()
     {
         return $this->hasMany(\App\Models\SupplierQuotation::class);
     }

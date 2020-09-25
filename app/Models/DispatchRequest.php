@@ -14,8 +14,13 @@ class DispatchRequest extends Model
         return $this->belongsTo(\App\Models\Department::class);
     }
 
-    public function product()
+    public function employee()
     {
-       return $this->hasMany(\App\Models\DispatchRequestProduct::class); 
+        return $this->belongsTo(\App\Models\User::class);
+    }
+    
+    public function products()
+    {
+        return $this->hasMany(\App\Models\DispatchRequestProduct::class);
     }
 }

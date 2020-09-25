@@ -14,7 +14,7 @@ class Customer extends Model
         return $this->hasMany(\App\Models\Quotation::class);
     }
 
-    public function supplier_quotation()
+    public function supplier_quotations()
     {
         return $this->hasMany(\App\Models\SupplierQuotation::class);
     }

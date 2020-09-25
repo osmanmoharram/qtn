@@ -14,12 +14,12 @@ class Branch extends Model
         return $this->hasOne(\App\Models\User::class);
     }
 
-    public function employee()
+    public function employees()
     {
         return $this->hasMany(\App\Models\User::class);
     }
 
-    public function quotation()
+    public function quotations()
     {
         return $this->hasMany(\App\Models\Quotation::class);
     }

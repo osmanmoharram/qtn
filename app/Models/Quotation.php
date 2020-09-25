@@ -11,12 +11,12 @@ class Quotation extends Model
 
     public function branch()
     {
-        return $this->hasOne(\App\Models\Branch::class);
+        return $this->belongsTo(\App\Models\Branch::class);
     }
 
     public function department()
     {
-        return $this->hasOne(\App\Models\Department::class);
+        return $this->belongsTo(\App\Models\Department::class);
     }
 
     public function customer()
@@ -26,6 +26,6 @@ class Quotation extends Model
 
     public function products()
     {
-        return $this->hasMany(\App\Models\Product::class);
+        return $this->hasMany(\App\Models\QuotationProduct::class);
     }
 }
