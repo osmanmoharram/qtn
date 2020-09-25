@@ -14,15 +14,11 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->increments('id');
             $table->string('email')->unique();
-            $table->string('phone')->unique();
-            $table->unsignedBigInteger('branch_id');
             $table->string('password');
-            $table->timestamps();
-
-            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->string('phone');
+            $table->unsignedInteger('branch_id')->nullable(); // if null then the user is super admin or has no branch.
         });
     }
 
