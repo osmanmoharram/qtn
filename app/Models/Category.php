@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class QuotationProduct extends Pivot
+class Category extends Model
 {
     use HasFactory;
 
@@ -15,7 +14,7 @@ class QuotationProduct extends Pivot
      *
      * @var string
      */
-    protected $table = 'quotation_products';
+    protected $table = 'categories';
 
     /**
      * The attributes that aren't mass assignable.

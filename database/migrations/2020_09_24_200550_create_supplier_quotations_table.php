@@ -26,7 +26,7 @@ class CreateSupplierQuotationsTable extends Migration
             $table->unsignedDecimal('total')->default(0);
             $table->timestamps();
 
-            $table->foreign('supplier_id', 'fk_supplier_quotations_customers_customer_id')->references('id')->on('customers')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('supplier_id', 'fk_supplier_quotations_suppliers_supplier_id')->references('id')->on('suppliers')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('department_id', 'fk_supplier_quotations_departments_department_id')->references('id')->on('departments')->onUpdate('CASCADE')->onDelete('SET NULL');
             $table->foreign('user_id', 'fk_supplier_quotations_users_user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
