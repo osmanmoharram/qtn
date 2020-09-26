@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurchaseOrdersTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePurchaseOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchase_orders', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('supplier_id');
-            $table->unsignedInteger('user_id')->nullable(); // user with role: procurement manage
+            $table->unsignedInteger('employee_id')->nullable();
             $table->date('issued_at')->nullable();
             $table->enum('status', ['awaiting', 'online', 'received', 'stored'])->default('awaiting');
             $table->string('payment_receipt')->nullable();
@@ -24,8 +24,8 @@ class CreatePurchaseOrdersTable extends Migration
             $table->unsignedDecimal('total')->default(0);
             $table->timestamps();
 
-            $table->foreign('supplier_id', 'fk_purchase_orders_suppliers_supplier_id')->references('id')->on('suppliers')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('user_id', 'fk_purchase_orders_users_user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('SET NULL');
+            $table->foreign('supplier_id', 'fk_orders_suppliers_supplier_id')->references('id')->on('suppliers')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('employee_id', 'fk_orders_employees_employee_id')->references('id')->on('employees')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 
@@ -36,6 +36,6 @@ class CreatePurchaseOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchase_orders');
+        Schema::dropIfExists('orders');
     }
 }

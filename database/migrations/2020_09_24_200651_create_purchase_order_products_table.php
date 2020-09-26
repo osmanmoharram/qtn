@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurchaseOrderProductsTable extends Migration
+class CreateOrderProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreatePurchaseOrderProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchase_order_products', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('purchase_order_id');
+        Schema::create('order_product', function (Blueprint $table) {
+            $table->unsignedInteger('order_id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('quantity')->default(0);
             $table->unsignedDecimal('unit_price')->default(0);
             $table->timestamps();
 
-            $table->foreign('purchase_order_id', 'fk_products_purchase_orders_purchase_order_id')->references('id')->on('purchase_orders')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('product_id', 'fk_purchase_order_products_products_product_id')->references('id')->on('products')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->primary(['order_id', 'product_id']);
+
+            $table->foreign('order_id', 'fk_order_product_orders_order_id')->references('id')->on('orders')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('product_id', 'fk_order_product_products_product_id')->references('id')->on('products')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -33,6 +34,6 @@ class CreatePurchaseOrderProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchase_order_products');
+        Schema::dropIfExists('order_product');
     }
 }

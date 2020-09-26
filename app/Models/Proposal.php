@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Quotation extends Model
+class Proposal extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Quotation extends Model
      *
      * @var string
      */
-    protected $table = 'quotations';
+    protected $table = 'proposals';
 
     /**
      * The attributes that aren't mass assignable.

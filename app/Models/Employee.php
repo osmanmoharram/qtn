@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DispatchRequest extends Model
+class Employee extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class DispatchRequest extends Model
      *
      * @var string
      */
-    protected $table = 'dispatch_requests';
+    protected $table = 'employees';
 
     /**
      * The attributes that aren't mass assignable.

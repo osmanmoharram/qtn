@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class PurchaseOrder extends Model
+class ProductRequest extends Pivot
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class PurchaseOrder extends Model
      *
      * @var string
      */
-    protected $table = 'purchase_orders';
+    protected $table = 'product_request';
 
     /**
      * The attributes that aren't mass assignable.

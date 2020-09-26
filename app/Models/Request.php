@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PurchaseOrderProduct extends Model
+class Request extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class PurchaseOrderProduct extends Model
      *
      * @var string
      */
-    protected $table = 'purchase_order_products';
+    protected $table = 'requests';
 
     /**
      * The attributes that aren't mass assignable.

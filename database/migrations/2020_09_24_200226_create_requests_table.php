@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProposalRequestsTable extends Migration
+class CreateRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateProposalRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('proposal_requests', function (Blueprint $table) {
+        Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->nullable(); // user with role: store manage
+            $table->unsignedInteger('employee_id')->nullable();
             $table->date('request_date')->nullable();
             $table->enum('status', ['new', 'approved', 'rejected'])->default('new');
             $table->string('rejection_reason')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id', 'fk_proposal_requests_users_user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('SET NULL');
+            $table->foreign('employee_id', 'fk_requests_employees_employee_id')->references('id')->on('employees')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 
@@ -32,6 +32,6 @@ class CreateProposalRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proposal_requests');
+        Schema::dropIfExists('requests');
     }
 }
