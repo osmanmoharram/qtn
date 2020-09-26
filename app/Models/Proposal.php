@@ -22,4 +22,24 @@ class Proposal extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

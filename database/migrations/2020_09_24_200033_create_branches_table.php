@@ -17,10 +17,7 @@ class CreateBranchesTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('location');
-            $table->unsignedInteger('employee_id')->nullable();
             $table->timestamps();
-
-            $table->foreign('employee_id', 'fk_branches_employees_employee_id')->references('id')->on('employees')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 

@@ -22,4 +22,19 @@ class Order extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

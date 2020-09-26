@@ -22,4 +22,9 @@ class Category extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

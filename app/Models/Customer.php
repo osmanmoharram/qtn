@@ -22,4 +22,9 @@ class Customer extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class);
+    }
 }

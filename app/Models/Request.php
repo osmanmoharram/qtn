@@ -22,4 +22,14 @@ class Request extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

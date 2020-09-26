@@ -22,4 +22,19 @@ class Department extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class);
+    }
+
+    public function dispatches()
+    {
+        return $this->hasMany(Dispatch::class);
+    }
+
+    public function proposals()
+    {
+        return $this->hasMany(Proposal::class);
+    }
 }

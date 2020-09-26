@@ -22,4 +22,14 @@ class Supplier extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function proposals()
+    {
+        return $this->hasMany(Proposal::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

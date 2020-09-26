@@ -22,4 +22,14 @@ class Branch extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    public function manager()
+    {
+        return $this->hasOne(Employee::class)->where('is_branch_manager', true)->get();
+    }
 }
