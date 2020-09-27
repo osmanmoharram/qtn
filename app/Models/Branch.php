@@ -30,6 +30,6 @@ class Branch extends Model
 
     public function manager()
     {
-        return $this->hasOne(Employee::class)->where('is_branch_manager', true)->get();
+        return $this->hasOne(Employee::class)->where('is_branch_manager', true);
     }
 }

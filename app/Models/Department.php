@@ -40,6 +40,6 @@ class Department extends Model
 
     public function manager()
     {
-        return $this->hasOne(Employee::class)->where('is_department_manager', true)->get();
+        return $this->hasOne(Employee::class)->where('is_department_manager', true);
     }
 }

@@ -16,10 +16,10 @@ class RolesTableSeeder extends Seeder
         $roles = [
             ['id' => 1, 'name' => 'Super admin', 'guard_name' => 'web'],
             ['id' => 2, 'name' => 'Branch manager', 'guard_name' => 'web'],
-            ['id' => 3, 'name' => 'Employee', 'guard_name' => 'web'],
-            ['id' => 4, 'name' => 'Store manager', 'guard_name' => 'web'],
-            ['id' => 5, 'name' => 'Department manager', 'guard_name' => 'web'],
-            ['id' => 6, 'name' => 'Procurement manager', 'guard_name' => 'web'],
+            ['id' => 3, 'name' => 'Store manager', 'guard_name' => 'web'],
+            ['id' => 4, 'name' => 'Department manager', 'guard_name' => 'web'],
+            ['id' => 5, 'name' => 'Procurement manager', 'guard_name' => 'web'],
+            ['id' => 6, 'name' => 'Employee', 'guard_name' => 'web'],
         ];
 
         foreach ($roles as $role) {
