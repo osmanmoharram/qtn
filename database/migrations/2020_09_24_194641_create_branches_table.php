@@ -16,11 +16,8 @@ class CreateBranchesTable extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('location');
-            $table->unsignedInteger('user_id')->nullable(); // user with role: branch manager
+            $table->string('location')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id', 'fk_branches_users_user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 

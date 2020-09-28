@@ -9,8 +9,22 @@ class Category extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'categories';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array|bool
+     */
+    protected $guarded = [];
+
     public function products()
     {
-        return $this->hasMany(\App\Models\Product::class);
+        return $this->hasMany(Product::class);
     }
 }

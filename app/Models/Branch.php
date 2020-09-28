@@ -9,18 +9,27 @@ class Branch extends Model
 {
     use HasFactory;
 
-    public function manager()
-    {
-        return $this->hasOne(\App\Models\User::class);
-    }
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'branches';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array|bool
+     */
+    protected $guarded = [];
 
     public function employees()
     {
-        return $this->hasMany(\App\Models\User::class);
+        return $this->hasMany(Employee::class);
     }
 
-    public function quotations()
+    public function manager()
     {
-        return $this->hasMany(\App\Models\Quotation::class);
+        return $this->hasOne(Employee::class)->where('is_branch_manager', true);
     }
 }

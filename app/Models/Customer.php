@@ -9,13 +9,22 @@ class Customer extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'customers';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array|bool
+     */
+    protected $guarded = [];
+
     public function quotations()
     {
-        return $this->hasMany(\App\Models\Quotation::class);
-    }
-
-    public function supplier_quotations()
-    {
-        return $this->hasMany(\App\Models\SupplierQuotation::class);
+        return $this->hasMany(Quotation::class);
     }
 }

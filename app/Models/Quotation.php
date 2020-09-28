@@ -9,23 +9,32 @@ class Quotation extends Model
 {
     use HasFactory;
 
-    public function branch()
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'quotations';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array|bool
+     */
+    protected $guarded = [];
+
+    public function customer()
     {
-        return $this->belongsTo(\App\Models\Branch::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function department()
     {
-        return $this->belongsTo(\App\Models\Department::class);
-    }
-
-    public function customer()
-    {
-        return $this->belongsTo(\App\Models\Customer::class);
+        return $this->belongsTo(Department::class);
     }
 
     public function products()
     {
-        return $this->hasMany(\App\Models\QuotationProduct::class);
+        return $this->belongsToMany(Product::class);
     }
 }

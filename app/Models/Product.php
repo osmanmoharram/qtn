@@ -8,34 +8,48 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'products';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array|bool
+     */
+    protected $guarded = [];
+
     public function category()
     {
-        return $this->belongsTo(\App\Models\Category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function quotation_products()
+    public function dispatches()
     {
-        return $this->hasMany(\App\Models\QuotationProduct::class);
+        return $this->belongsToMany(Dispatch::class);
     }
 
-    public function dispatch_request_products()
+    public function orders()
     {
-        return $this->hasMany(\App\Models\DispatchRequestProduct::class);
+        return $this->belongsToMany(Order::class);
     }
 
-    public function proposal_request_products()
+    public function proposals()
     {
-        return $this->hasMany(\App\Models\ProposalRequestProduct::class);
+        return $this->belongsToMany(Proposal::class);
     }
 
-    public function supplier_quotation_products()
+    public function quotations()
     {
-        return $this->hasMany(\App\Models\SupplierQuotationProduct::class);
+        return $this->belongsToMany(Quotation::class);
     }
 
-    public function purchase_order_products()
+    public function requests()
     {
-        return $this->hasMany(\App\Models\PurchaseOrderProduct::class);
+        return $this->belongsToMany(Request::class);
     }
 }

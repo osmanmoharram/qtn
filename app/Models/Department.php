@@ -9,18 +9,37 @@ class Department extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'departments';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array|bool
+     */
+    protected $guarded = [];
+
     public function quotations()
     {
-        return $this->hasMany(\App\Models\Quotation::class);
+        return $this->hasMany(Quotation::class);
     }
 
-    public function dispatch_requests()
+    public function dispatches()
     {
-        return $this->hasMany(\App\Models\DispatchRequest::class);
+        return $this->hasMany(Dispatch::class);
     }
 
-    public function supplier_quotations()
+    public function proposals()
     {
-        return $this->hasMany(\App\Models\SupplierQuotation::class);
+        return $this->hasMany(Proposal::class);
+    }
+
+    public function manager()
+    {
+        return $this->hasOne(Employee::class)->where('is_department_manager', true);
     }
 }

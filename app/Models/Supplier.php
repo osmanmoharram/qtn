@@ -9,13 +9,27 @@ class Supplier extends Model
 {
     use HasFactory;
 
-    public function quotation()
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'suppliers';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array|bool
+     */
+    protected $guarded = [];
+
+    public function proposals()
     {
-        return $this->hasMany(\App\Models\SupplierQuotation::class);
+        return $this->hasMany(Proposal::class);
     }
-    
-    public function purchase_order()
+
+    public function orders()
     {
-        return $this->hasMany(\App\Models\PurchaseOrder::class);
+        return $this->hasMany(Order::class);
     }
 }

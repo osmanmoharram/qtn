@@ -16,10 +16,8 @@ class CreateDepartmentsTable extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->unsignedInteger('user_id')->nullable(); // user with role: department manager
             $table->timestamps();
 
-            $table->foreign('user_id', 'fk_departments_users_user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 
