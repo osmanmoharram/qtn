@@ -30,26 +30,31 @@ class Product extends Model
 
     public function dispatches()
     {
-        return $this->belongsToMany(Dispatch::class);
+        return $this->belongsToMany(Dispatch::class)
+            ->withPivot(['quantity']);
     }
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class)
+            ->withPivot(['quantity', 'unit_price']);
     }
 
     public function proposals()
     {
-        return $this->belongsToMany(Proposal::class);
+        return $this->belongsToMany(Proposal::class)
+            ->withPivot(['quantity', 'unit_price']);
     }
 
     public function quotations()
     {
-        return $this->belongsToMany(Quotation::class);
+        return $this->belongsToMany(Quotation::class)
+            ->withPivot(['quantity', 'unit_price']);
     }
 
     public function requests()
     {
-        return $this->belongsToMany(Request::class);
+        return $this->belongsToMany(Request::class)
+            ->withPivot(['quantity']);
     }
 }
