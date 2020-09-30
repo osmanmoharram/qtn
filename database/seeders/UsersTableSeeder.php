@@ -16,12 +16,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $users = [
-            ['id' => 1, 'name' => 'Osman Moharram', 'email' => 'osman@hotmail.com', 'password' => Hash::make('12345678')],
-            ['id' => 2, 'name' => 'Mohammed Moharram', 'email' => 'moharram82@hotmail.com', 'password' => Hash::make('12345678')],
-            ['id' => 3, 'name' => 'Abubaker Moharram', 'email' => 'bakri@hotmail.com', 'password' => Hash::make('12345678')],
-            ['id' => 4, 'name' => 'Omer Moharram', 'email' => 'omer@hotmail.com', 'password' => Hash::make('12345678')],
-            ['id' => 5, 'name' => 'Ali Moharram', 'email' => 'ali@hotmail.com', 'password' => Hash::make('12345678')],
-            ['id' => 6, 'name' => 'Rami Rasikh', 'email' => 'rami@hotmail.com', 'password' => Hash::make('12345678')],
+            ['id' => 1, 'email' => 'osman@hotmail.com', 'password' => Hash::make('12345678')],
+            ['id' => 2, 'email' => 'moharram82@hotmail.com', 'password' => Hash::make('12345678')],
+            ['id' => 3, 'email' => 'bakri@hotmail.com', 'password' => Hash::make('12345678')],
+            ['id' => 4, 'email' => 'omer@hotmail.com', 'password' => Hash::make('12345678')],
+            ['id' => 5, 'email' => 'ali@hotmail.com', 'password' => Hash::make('12345678')],
+            ['id' => 6, 'email' => 'rami@hotmail.com', 'password' => Hash::make('12345678')],
         ];
 
         foreach ($users as $user) {

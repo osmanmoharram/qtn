@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\{Auth, Route, Redirect};
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return Auth::check()
+        ? Redirect::route('home')
+        : Redirect::route('login');
+});
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('home', [HomeController::class, 'showHomeView'])->name('home');
 });

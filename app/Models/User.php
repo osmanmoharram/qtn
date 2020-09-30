@@ -16,11 +16,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
-        'phone',
-        'branch_id',
     ];
 
     /**
@@ -41,14 +38,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function branch()
-    {
-        return $this->belongsTo(\App\Models\Branch::class);
-    }
-
-    public function dispatch_request()
-    {
-        return $this->hasMany(\App\Models\DispatchRequest::class);
-    }
 }
