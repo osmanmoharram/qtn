@@ -14,16 +14,16 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            ['id' => 1, 'name' => 'Mobiles phones'],
-            ['id' => 2, 'name' => 'TVs'],
-            ['id' => 3, 'name' => 'Home appliances'],
-            ['id' => 4, 'name' => 'Entertainments'],
-            ['id' => 5, 'name' => 'Tires'],
+        $categories = [
+            ['name' => 'Mobiles phones'],
+            ['name' => 'TVs'],
+            ['name' => 'Home appliances'],
+            ['name' => 'Entertainments'],
+            ['name' => 'Tires'],
         ];
 
-        foreach ($users as $user) {
-            $r = Category::create($user);
+        foreach ($categories as $category) {
+            Category::create($category);
         }
     }
 }

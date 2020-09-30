@@ -14,16 +14,16 @@ class CustomersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            ['id' => 1, 'name' => 'Ayman Omer'],
-            ['id' => 2, 'name' => 'Yassin Mohammed'],
-            ['id' => 3, 'name' => 'Mubarak Hassan'],
-            ['id' => 4, 'name' => 'Noha Ameen'],
-            ['id' => 5, 'name' => 'Sanaa Omer'],
+        $customers = [
+            ['name' => 'Ayman Omer'],
+            ['name' => 'Yassin Mohammed'],
+            ['name' => 'Mubarak Hassan'],
+            ['name' => 'Noha Ameen'],
+            ['name' => 'Sanaa Omer'],
         ];
 
-        foreach ($users as $user) {
-            $r = Customer::create($user);
+        foreach ($customers as $customer) {
+            Customer::create($customer);
         }
     }
 }

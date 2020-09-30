@@ -14,16 +14,16 @@ class DepartmentsTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            ['id' => 1, 'name' => 'Accounting'],
-            ['id' => 2, 'name' => 'Procurements'],
-            ['id' => 3, 'name' => 'Sales'],
-            ['id' => 4, 'name' => 'IT'],
-            ['id' => 5, 'name' => 'Storage'],
+        $departments = [
+            ['name' => 'Accounting'],
+            ['name' => 'Procurements'],
+            ['name' => 'Sales'],
+            ['name' => 'IT'],
+            ['name' => 'Storage'],
         ];
 
-        foreach ($users as $user) {
-            $r = Department::create($user);
+        foreach ($departments as $department) {
+            Department::create($department);
         }
     }
 }

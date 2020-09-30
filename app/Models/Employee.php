@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRoles;
 
     /**
      * The table associated with the model.
@@ -22,6 +23,8 @@ class Employee extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    protected $guard_name = 'web';
 
     public function branch()
     {

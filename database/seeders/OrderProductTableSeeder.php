@@ -14,12 +14,12 @@ class OrderProductTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        $order_products = [
             ['product_id' => 8, 'order_id' => 1, 'quantity' => 5, 'unit_price' => 4000],
         ];
 
-        foreach ($users as $user) {
-            $r = OrderProduct::create($user);
+        foreach ($order_products as $order_product) {
+            OrderProduct::create($order_product);
         }
     }
 }

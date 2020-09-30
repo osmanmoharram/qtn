@@ -14,12 +14,20 @@ class BranchesTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            ['id' => 1, 'name' => 'QTN main branch'],
+        $branches = [
+            [
+                'name' => 'QTN Main Branch',
+                'location' => '60st Manshia'
+            ],
+
+            [
+                'name' => 'QTN West Branch',
+                'location' => 'Khartoum-2'
+            ]
         ];
 
-        foreach ($users as $user) {
-            $r = Branch::create($user);
+        foreach ($branches as $branch) {
+            Branch::create($branch);
         }
     }
 }

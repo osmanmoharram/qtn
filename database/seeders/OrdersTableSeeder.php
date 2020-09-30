@@ -14,12 +14,12 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            ['id' => 1, 'supplier_id' => 2, 'employee_id' => 3, 'issued_at' => '2020-04-28', 'status' => 'awaiting'],
+        $orders = [
+            ['supplier_id' => 2, 'employee_id' => 3, 'issued_at' => '2020-04-28', 'status' => 'awaiting'],
         ];
 
-        foreach ($users as $user) {
-            $r = Order::create($user);
+        foreach ($orders as $order) {
+            Order::create($order);
         }
     }
 }

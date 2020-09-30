@@ -14,14 +14,14 @@ class DispatchProductTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        $dispatch_products = [
             ['dispatch_id' => 1, 'product_id' => 1, 'quantity' => 1],
-            ['dispatch_id' => 1, 'product_id' => 10, 'quantity' => 1],
-            ['dispatch_id' => 2, 'product_id' => 14, 'quantity' => 2],
+            ['dispatch_id' => 2, 'product_id' => 10, 'quantity' => 1],
+            ['dispatch_id' => 1, 'product_id' => 14, 'quantity' => 2],
         ];
 
-        foreach ($users as $user) {
-            $r = DispatchProduct::create($user);
+        foreach ($dispatch_products as $dispatch_product) {
+            DispatchProduct::create($dispatch_product);
         }
     }
 }

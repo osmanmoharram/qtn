@@ -14,13 +14,13 @@ class ProductProposalTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        $proposal_products = [
             ['product_id' => 8, 'proposal_id' => 1, 'quantity' => 5, 'unit_price' => 4000],
             ['product_id' => 12, 'proposal_id' => 2, 'quantity' => 10, 'unit_price' => 80000],
         ];
 
-        foreach ($users as $user) {
-            $r = ProductProposal::create($user);
+        foreach ($proposal_products as $proposal_product) {
+            ProductProposal::create($proposal_product);
         }
     }
 }

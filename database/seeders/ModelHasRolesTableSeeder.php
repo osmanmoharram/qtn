@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Employee;
 
 class ModelHasRolesTableSeeder extends Seeder
 {
@@ -13,17 +14,12 @@ class ModelHasRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        $roles = [
-            ['role_id' => 1, 'model_type' => 'App\Models\User', 'model_id' => 1],
-            ['role_id' => 2, 'model_type' => 'App\Models\User', 'model_id' => 2],
-            ['role_id' => 3, 'model_type' => 'App\Models\User', 'model_id' => 3],
-            ['role_id' => 4, 'model_type' => 'App\Models\User', 'model_id' => 4],
-            ['role_id' => 5, 'model_type' => 'App\Models\User', 'model_id' => 5],
-            ['role_id' => 6, 'model_type' => 'App\Models\User', 'model_id' => 6],
-        ];
-
-        foreach ($roles as $role) {
-            $r = ModelRole::create($role);
-        }
+        Employee::find(2)->assignRole('area manager');
+        Employee::find(3)->assignRole('branch manager');
+        Employee::find(4)->assignRole('department manager');
+        Employee::find(5)->assignRole('store manager');
+        Employee::find(1)->assignRole('procurment manager');
+        Employee::find(6)->assignRole('employee');
+        Employee::find(7)->assignRole('employee');
     }
 }
