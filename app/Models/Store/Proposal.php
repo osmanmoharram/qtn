@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Store;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Proposal extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Order extends Model
      *
      * @var string
      */
-    protected $table = 'orders';
+    protected $table = 'proposals';
 
     /**
      * The attributes that aren't mass assignable.
@@ -23,10 +23,14 @@ class Order extends Model
      */
     protected $guarded = [];
 
-    public function products()
+    public function department()
     {
-        return $this->belongsToMany(Product::class)
-            ->withPivot(['quantity', 'unit_price']);
+        return $this->belongsTo(Department::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     public function supplier()
@@ -34,8 +38,9 @@ class Order extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function employee()
+    public function products()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsToMany(Product::class)
+            ->withPivot(['quantity', 'unit_price']);
     }
 }

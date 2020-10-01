@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Models\Proposal;
+use App\Models\Store\Proposal;
 use Illuminate\Http\Request;
 
 class ProposalController extends Controller

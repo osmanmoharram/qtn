@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Quotations;
 
 use App\Http\Controllers\Controller;
-use App\Models\Dispatch;
+use App\Models\Quotations\Dispatch;
 use Illuminate\Http\Request;
 
 class DispatchController extends Controller

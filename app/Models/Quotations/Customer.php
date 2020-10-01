@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Quotations;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class ProductProposal extends Pivot
+class Customer extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class ProductProposal extends Pivot
      *
      * @var string
      */
-    protected $table = 'product_proposal';
+    protected $table = 'customers';
 
     /**
      * The attributes that aren't mass assignable.
@@ -22,4 +22,9 @@ class ProductProposal extends Pivot
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class);
+    }
 }

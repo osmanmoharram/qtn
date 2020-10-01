@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Store;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Request extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Customer extends Model
      *
      * @var string
      */
-    protected $table = 'customers';
+    protected $table = 'requests';
 
     /**
      * The attributes that aren't mass assignable.
@@ -23,8 +23,14 @@ class Customer extends Model
      */
     protected $guarded = [];
 
-    public function quotations()
+    public function employee()
     {
-        return $this->hasMany(Quotation::class);
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)
+            ->withPivot(['quantity']);
     }
 }

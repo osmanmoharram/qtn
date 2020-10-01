@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Quotations;
 
 use App\Http\Controllers\Controller;
-use App\Models\Quotation;
+use App\Models\Quotations\Quotation;
 use Illuminate\Http\Request;
 
 class QuotationController extends Controller

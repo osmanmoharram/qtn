@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Models\Request;
+use App\Models\Store\Request;
 use Illuminate\Http\Request as HttpRequest;
 
 class RequestController extends Controller
