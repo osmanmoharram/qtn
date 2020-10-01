@@ -25,17 +25,5 @@ class RolesTableSeeder extends Seeder
         foreach ($roles as $role) {
             $r = \Spatie\Permission\Models\Role::create($role);
         }
-
-        $permissions = [
-            ['id' => 1, 'name' => 'Administration', 'guard_name' => 'web']
-        ];
-
-        foreach ($permissions as $permission) {
-            $p = \Spatie\Permission\Models\Permission::create($permission);
-        }
-
-        $admin_role = \Spatie\Permission\Models\Role::findByName('Super admin');
-        $admin_permission = \Spatie\Permission\Models\Permission::findByName('Administration');
-        $admin_role->givePermissionTo($admin_permission);
     }
 }
