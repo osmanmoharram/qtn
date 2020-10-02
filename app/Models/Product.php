@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Quotations\Dispatch;
+use App\Models\Quotations\Quotation;
+use App\Models\Store\Order;
+use App\Models\Store\Proposal;
+use App\Models\Store\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

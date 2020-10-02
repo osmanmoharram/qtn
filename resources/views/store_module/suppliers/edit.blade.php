@@ -16,6 +16,21 @@
         {{ Form::text('name', null, array('class' => 'form-control')) }}
     </div>
 
+    <div class="form-group">
+        {{ Form::label('email', 'Email') }}
+        {{ Form::email('email', null, array('class' => 'form-control')) }}
+    </div>
+
+    <div class="form-group">
+        {{ Form::label('phone', 'Phone') }}
+        {{ Form::text('phone', null, array('class' => 'form-control')) }}
+    </div>
+
+    <div class="form-group">
+        {{ Form::label('address', 'Address') }}
+        {{ Form::text('address', null, array('class' => 'form-control')) }}
+    </div>
+
     {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}

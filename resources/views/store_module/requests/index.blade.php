@@ -16,6 +16,9 @@
 
         <thead>
             <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Status</th>
                 <th>Operations</th>
             </tr>
         </thead>
@@ -23,7 +26,11 @@
         <tbody>
         @foreach ($requests as $request)
             <tr>
+                <td>{{ $request->employee->user->name }}</td>
+                <td>{{ $request->request_date }}</td>
+                <td>{{ $request->status }}</td>
                 <td>
+                    <a href="{{ route('requests.show', $request->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">View</a>
                     <a href="{{ route('requests.edit', $request->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">Edit</a>
 
                     {!! Form::open(['method' => 'DELETE', 'route' => ['requests.destroy', $request->id], 'class' => 'd-inline' ]) !!}

@@ -2,44 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
-use Auth;
+use Illuminate\Routing\Redirector;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Session;
 
 class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function index()
     {
-        $roles = Role::all();
-
-        return view('roles.index')->with('roles', $roles);
+        return view('roles.index')->with('roles', Role::all());
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function create()
     {
-        $permissions = Permission::all();
-
-        return view('roles.create', ['permissions'=>$permissions]);
+        return view('roles.create', ['permissions' => Permission::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
@@ -48,34 +47,30 @@ class RoleController extends Controller
             ]
         );
 
-        $name = $request['name'];
-        $role = new Role();
-        $role->name = $name;
+        $role = Role::create([
+            'name' => $request['name']
+        ]);
 
-        $permissions = $request['permissions'];
+        $permissions_ids = $request['permissions'];
 
-        $role->save();
-
-        if($permissions) {
-            foreach ($permissions as $permission) {
-                $p = Permission::where('id', '=', $permission)->firstOrFail();
-                $role = Role::where('name', '=', $name)->first();
-                $role->givePermissionTo($p);
+        if($permissions_ids) {
+            foreach ($permissions_ids as $permission_id) {
+                $permission = Permission::where('id', $permission_id)->firstOrFail();
+                $role->givePermissionTo($permission);
             }
         }
 
         return redirect()->route('roles.index')
-            ->with('flash_message',
-             'Role'. $role->name.' added!');
+            ->with('flash_message', 'Role'. $role->name.' was added.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return Redirector
      */
-    public function show($id)
+    public function show(Role $role)
     {
         return redirect('roles');
     }
@@ -83,12 +78,11 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return View
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        $role = Role::findOrFail($id);
         $permissions = Permission::all();
 
         return view('roles.edit', compact('role', 'permissions'));
@@ -97,53 +91,48 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Role $role
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        $role = Role::findOrFail($id);
-        $this->validate($request, [
-            'name'=>'required|max:128|unique:roles,name,'.$id,
+        $validated_fields = $this->validate($request, [
+            'name'=>'required|max:128|unique:roles,name,'.$role->id,
         ]);
 
-        $input = $request->except(['permissions']);
-        $permissions = $request['permissions'];
-        $role->fill($input)->save();
-        $p_all = Permission::all();
+        $role->fill($validated_fields)->save();
 
-        if($permissions) {
+        $permissions_ids = $request['permissions'];
+
+        if($permissions_ids) {
             // revoke all permissions first
-            foreach ($p_all as $p) {
-                $role->revokePermissionTo($p);
-            }
+            $role->permissions()->detach();
 
             // assign new permissions
-            foreach ($permissions as $permission) {
-                $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form permission in db
-                $role->givePermissionTo($p);
+            foreach ($permissions_ids as $permission_id) {
+                $permission = Permission::where('id', $permission_id)->firstOrFail();
+                $role->givePermissionTo($permission);
             }
         }
 
         return redirect()->route('roles.index')
-            ->with('flash_message',
-             'Role'. $role->name.' updated!');
+            ->with('flash_message', 'Role'. $role->name.' updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        $role = Role::findOrFail($id);
         $role->delete();
 
         return redirect()->route('roles.index')
-            ->with('flash_message',
-             'Role deleted!');
+            ->with('flash_message', 'Role deleted!');
     }
 }

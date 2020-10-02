@@ -2,6 +2,9 @@
 
 namespace App\Models\Store;
 
+use App\Models\Department;
+use App\Models\Employee;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -16,6 +16,10 @@
 
         <thead>
             <tr>
+                <th>Supplier</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
                 <th>Operations</th>
             </tr>
         </thead>
@@ -23,7 +27,12 @@
         <tbody>
         @foreach ($orders as $order)
             <tr>
+                <td>{{ $order->supplier->name }}</td>
+                <td>{{ $order->issued_at }}</td>
+                <td>{{ $order->status }}</td>
+                <td>{{ $order->total }}</td>
                 <td>
+                    <a href="{{ route('orders.show', $order->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">View</a>
                     <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">Edit</a>
 
                     {!! Form::open(['method' => 'DELETE', 'route' => ['orders.destroy', $order->id], 'class' => 'd-inline' ]) !!}
