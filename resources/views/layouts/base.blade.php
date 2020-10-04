@@ -124,9 +124,9 @@
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         @if(auth()->user()->profile_picture)
-                                            <img class="profile-pic" src="{{ asset('img/profiles') }}/{{ Auth::user()->profile_picture }}" alt="Profile Picture">
+                                            <img class="profile-pic" src="{{ asset('storage/img/profiles') }}/{{ Auth::user()->profile_picture }}" alt="Profile Picture">
                                         @else
-                                            <img class="profile-pic" src="{{ asset('img/profiles/default.jpg') }}" alt="Profile Picture">
+                                            <img class="profile-pic" src="{{ asset('storage/img/profiles/default.jpg') }}" alt="Profile Picture">
                                         @endif
                                         {{ Auth::user()->name }} <span class="caret"></span>
                                     </a>
