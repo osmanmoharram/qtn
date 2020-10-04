@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -26,7 +25,7 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:products,name,' . $this->segment(2)],
+            'name' => ['required', 'unique:products,name,' . $this->route('product')->id],
             'category_id' => ['required', 'exists:categories,id'],
             'quantity' => ['required', 'numeric', 'min:0'],
             'description' => ['sometimes'],
