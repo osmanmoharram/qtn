@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrderProduct;
+use App\Models\Store\OrderProduct;
 use Illuminate\Database\Seeder;
 
 class OrderProductTableSeeder extends Seeder

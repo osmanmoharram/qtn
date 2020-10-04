@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\DispatchProduct;
+use App\Models\Quotations\DispatchProduct;
 use Illuminate\Database\Seeder;
 
 class DispatchProductTableSeeder extends Seeder

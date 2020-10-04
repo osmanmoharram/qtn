@@ -30,7 +30,9 @@
                 <td>{{ $order->supplier->name }}</td>
                 <td>{{ $order->issued_at }}</td>
                 <td>{{ $order->status }}</td>
-                <td>{{ $order->total }}</td>
+                <td>{{ number_format($order->products->map(function ($product) {
+            return $product->pivot->quantity * $product->pivot->unit_price;
+        })->sum(), 2) }}</td>
                 <td>
                     <a href="{{ route('orders.show', $order->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">View</a>
                     <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">Edit</a>

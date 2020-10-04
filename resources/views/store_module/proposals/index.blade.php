@@ -18,8 +18,8 @@
             <tr>
                 <th>Supplier</th>
                 <th>Date</th>
-                <th>Total</th>
                 <th>Status</th>
+                <th>Total</th>
                 <th>Operations</th>
             </tr>
         </thead>
@@ -29,8 +29,10 @@
             <tr>
                 <td>{{ $proposal->supplier->name }}</td>
                 <td>{{ $proposal->quotation_date }}</td>
-                <td>{{ $proposal->total }}</td>
                 <td>{{ $proposal->status }}</td>
+                <td>{{ number_format($proposal->products->map(function ($product) {
+            return $product->pivot->quantity * $product->pivot->unit_price;
+        })->sum(), 2) }}</td>
                 <td>
                     <a href="{{ route('proposals.show', $proposal->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">View</a>
                     <a href="{{ route('proposals.edit', $proposal->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">Edit</a>

@@ -21,7 +21,6 @@ class CreateOrdersTable extends Migration
             $table->enum('status', ['awaiting', 'online', 'received', 'stored'])->default('awaiting');
             $table->string('payment_receipt')->nullable();
             $table->unsignedDecimal('tax')->nullable();
-            $table->unsignedDecimal('total')->default(0);
             $table->timestamps();
 
             $table->foreign('supplier_id', 'fk_orders_suppliers_supplier_id')->references('id')->on('suppliers')->onUpdate('CASCADE')->onDelete('CASCADE');

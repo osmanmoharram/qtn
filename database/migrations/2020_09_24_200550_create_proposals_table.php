@@ -23,7 +23,6 @@ class CreateProposalsTable extends Migration
             $table->enum('status', ['pending_approval', 'approved', 'rejected'])->default('pending_approval');
             $table->string('rejection_reason')->nullable();
             $table->unsignedDecimal('tax')->nullable();
-            $table->unsignedDecimal('total')->default(0);
             $table->timestamps();
 
             $table->foreign('supplier_id', 'fk_proposals_suppliers_supplier_id')->references('id')->on('suppliers')->onUpdate('CASCADE')->onDelete('CASCADE');

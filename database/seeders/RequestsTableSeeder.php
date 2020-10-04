@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Request;
+use App\Models\Store\Request;
 use Illuminate\Database\Seeder;
 
 class RequestsTableSeeder extends Seeder

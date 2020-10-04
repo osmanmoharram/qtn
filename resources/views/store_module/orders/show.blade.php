@@ -11,7 +11,9 @@
     <p>Date {{ $order->issued_at }}</p>
     <p>Status {{ $order->status }}</p>
     <p>Tax {{ $order->tax }}</p>
-    <p>Total {{ $order->total }}</p>
+    <p>Total {{ number_format($order->products->map(function ($product) {
+            return $product->pivot->quantity * $product->pivot->unit_price;
+        })->sum(), 2) }}</p>
 
     <h3 class="mt-5">Products</h3>
 

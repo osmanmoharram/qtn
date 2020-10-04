@@ -12,7 +12,9 @@
     <p>Status: {{ $proposal->status }}</p>
     <p>Rejection reason: {{ $proposal->rejection_reason }}</p>
     <p>Tax: {{ $proposal->tax }}</p>
-    <p>Total: {{ $proposal->total }}</p>
+    <p>Total: {{ number_format($proposal->products->map(function ($product) {
+            return $product->pivot->quantity * $product->pivot->unit_price;
+        })->sum(), 2) }}</p>
 
     <h3 class="mt-5">Products</h3>
 

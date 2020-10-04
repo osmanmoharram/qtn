@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Customer;
+use App\Models\Quotations\Customer;
 use Illuminate\Database\Seeder;
 
 class CustomersTableSeeder extends Seeder

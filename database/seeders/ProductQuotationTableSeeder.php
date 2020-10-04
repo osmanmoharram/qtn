@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductQuotation;
+use App\Models\Quotations\ProductQuotation;
 use Illuminate\Database\Seeder;
 
 class ProductQuotationTableSeeder extends Seeder

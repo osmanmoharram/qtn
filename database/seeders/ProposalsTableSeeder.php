@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Proposal;
+use App\Models\Store\Proposal;
 use Illuminate\Database\Seeder;
 
 class ProposalsTableSeeder extends Seeder
