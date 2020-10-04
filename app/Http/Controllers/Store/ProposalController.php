@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Product;
 use App\Models\Store\Proposal;
 use App\Models\Store\Supplier;
 use Exception;
@@ -32,25 +33,15 @@ class ProposalController extends Controller
      */
     public function create()
     {
-        $suppliers = [];
+        $suppliers = Supplier::all()->pluck('name', 'id')->toArray();
 
-        foreach (Supplier::all() as $supplier) {
-            $suppliers[$supplier->id] = $supplier->name;
-        }
+        $departments = Department::all()->pluck('name', 'id')->toArray();
 
-        $departments = [];
+        $employees = Employee::all()->pluck('user.name', 'id')->toArray();
 
-        foreach (Department::all() as $department) {
-            $departments[$department->id] = $department->name;
-        }
+        $products = Product::all()->pluck('name', 'id')->toArray();
 
-        $employees = [];
-
-        foreach (Employee::all() as $employee) {
-            $employees[$employee->id] = $employee->user->name;
-        }
-
-        return view('store_module.proposals.create', compact('suppliers', 'departments', 'employees'));
+        return view('store_module.proposals.create', compact('suppliers', 'departments', 'employees', 'products'));
     }
 
     /**
@@ -69,10 +60,26 @@ class ProposalController extends Controller
             'quotation_date' => 'required|date',
             'status' => 'required|in:pending_approval,approved,rejected',
             'rejection_reason' => 'nullable|max:128',
-            'tax' => 'nullable|numeric'
+            'tax' => 'nullable|numeric',
+            'products.*.product_id' => 'required|numeric',
+            'products.*.quantity' => 'required|numeric',
+            'products.*.unit_price' => 'required|numeric'
         ]);
 
-        $proposal = Proposal::create($validated_fields);
+        $proposal = Proposal::create([
+            'supplier_id' => $request->supplier_id,
+            'department_id' => $request->department_id,
+            'employee_id' => $request->employee_id,
+            'quotation_date' => $request->quotation_date,
+            'status' => $request->status,
+            'rejection_reason' => $request->rejection_reason,
+            'tax' => $request->tax,
+        ]);
+
+        // add products if any
+        foreach ($request->products as $product) {
+            $proposal->products()->attach($product['product_id'], ['quantity' => $product['quantity'], 'unit_price' => $product['unit_price']]);
+        }
 
         return redirect()->route('proposals.index')
             ->with('flash_message', 'Proposal created successfully.');
@@ -97,25 +104,15 @@ class ProposalController extends Controller
      */
     public function edit(Proposal $proposal)
     {
-        $suppliers = [];
+        $suppliers = Supplier::all()->pluck('name', 'id')->toArray();
 
-        foreach (Supplier::all() as $supplier) {
-            $suppliers[$supplier->id] = $supplier->name;
-        }
+        $departments = Department::all()->pluck('name', 'id')->toArray();
 
-        $departments = [];
+        $employees = Employee::all()->pluck('user.name', 'id')->toArray();
 
-        foreach (Department::all() as $department) {
-            $departments[$department->id] = $department->name;
-        }
+        $products = Product::all()->pluck('name', 'id')->toArray();
 
-        $employees = [];
-
-        foreach (Employee::all() as $employee) {
-            $employees[$employee->id] = $employee->user->name;
-        }
-
-        return view('store_module.proposals.edit', compact('proposal', 'suppliers', 'departments', 'employees'));
+        return view('store_module.proposals.edit', compact('proposal', 'suppliers', 'departments', 'employees', 'products'));
     }
 
     /**
@@ -135,10 +132,22 @@ class ProposalController extends Controller
             'quotation_date' => 'required|date',
             'status' => 'required|in:pending_approval,approved,rejected',
             'rejection_reason' => 'nullable|max:128',
-            'tax' => 'nullable|numeric'
+            'tax' => 'nullable|numeric',
+            'products.*.product_id' => 'required|numeric',
+            'products.*.quantity' => 'required|numeric',
+            'products.*.unit_price' => 'required|numeric'
         ]);
 
         $proposal->fill($validated_fields)->save();
+
+        if($request->has('product_id')) {
+
+            // remove existing products first
+            $proposal->products()->detach();
+
+            // add product
+            $proposal->products()->attach($request->product_id, ['quantity' => $request->quantity, 'unit_price' => $request->unit_price]);
+        }
 
         return redirect()->route('proposals.index')
             ->with('flash_message', 'Proposal updated successfully.');
@@ -157,5 +166,29 @@ class ProposalController extends Controller
 
         return redirect()->route('proposals.index')
             ->with('flash_message', 'Proposal deleted successfully.');
+    }
+
+    public function updateProductAjax(Request $request, Proposal $proposal)
+    {
+        if($request->action == 'add') {
+            // remove product if already there
+            if($proposal->products->pluck('id')->contains($request->product_id)) {
+                $proposal->products()->detach($request->product_id);
+            }
+
+            // add product
+            $proposal->products()->attach($request->product_id, ['quantity' => $request->quantity, 'unit_price' => $request->unit_price]);
+
+            $request->session()->flash('flash_message', 'Product added successfully.');
+
+            return json_encode('Product added successfully');
+        }
+
+        // remove the product
+        $proposal->products()->detach($request->product_id);
+
+        $request->session()->flash('flash_message', 'Product removed successfully.');
+
+        return json_encode('Product removed successfully');
     }
 }

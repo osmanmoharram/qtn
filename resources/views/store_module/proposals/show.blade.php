@@ -14,4 +14,36 @@
     <p>Tax: {{ $proposal->tax }}</p>
     <p>Total: {{ $proposal->total }}</p>
 
+    <h3 class="mt-5">Products</h3>
+
+    @if(count($proposal->products) > 0)
+
+    <table class="table data-table">
+
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach ($proposal->products as $product)
+            <tr>
+                <td>{{ $product->name }}</td>
+                <td>{{ $product->pivot->quantity }}</td>
+                <td>{{ $product->pivot->unit_price }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+
+    </table>
+
+    @else
+
+        <p>No products.</p>
+
+    @endif
+
 @endsection

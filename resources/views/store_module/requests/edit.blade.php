@@ -31,8 +31,135 @@
         {{ Form::textarea('rejection_reason', null, array('class' => 'form-control')) }}
     </div>
 
-    {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
+    <h3 class="float-left mt-4">Products</h3>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success float-right mt-4 mb-4" data-toggle="modal" data-target="#addProduct">Add Product</button><br>
+
+    <div class="clearfix"></div>
+
+    @if(count($request->products) > 0)
+
+        <table class="table data-table">
+
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach ($request->products as $request_product)
+                <tr>
+                    <td>{{ $request_product->name }}</td>
+                    <td>{{ $request_product->pivot->quantity }}</td>
+                    <td><a href="#" class="btn btn-outline-danger btnRemoveProduct" data-product-id="{{ $request_product->id }}">Remove</a></td>
+                </tr>
+            @endforeach
+            </tbody>
+
+        </table>
+
+    @else
+
+        <p>No products.</p>
+
+    @endif
+
+    {{ Form::submit('Update RFP', array('class' => 'btn btn-primary btn-block btn-lg mt-5')) }}
 
     {{ Form::close() }}
 
+    <!-- add product modal -->
+    <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Add Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="product_id" class="col-form-label">Product</label>
+                        <select type="text" name="product_id" class="form-control" id="product_id">
+                            @foreach($products as $product_id => $product_name)
+                                <option value="{{ $product_id }}">{{ $product_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity" class="col-form-label">Quantity</label>
+                        <input type="text" name="quantity" id="quantity" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="btnAddProduct" class="btn btn-success">Add Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('scripts')
+    @parent
+
+    <script>
+        function validate_form(id, qty) {
+            // validate the form
+            if(! id) {
+                alert('Product is required');
+            }
+
+            if(! qty) {
+                alert('Quantity is required');
+            } else if(isNaN(qty)) {
+                alert('Quantity should be a number');
+            }
+        }
+
+        function submit_form(action, product_id, quantity) {
+            // submit the form
+            $.ajax({
+                url: '{{ route('requests.edit', $request->id) }}',
+                type: 'POST',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                data: {action: action, product_id: product_id, quantity: quantity},
+                success: function(data) {
+                    // redirect to the same page
+                    window.location.replace('{{ route('requests.edit', $request->id) }}');
+                },
+                error: function(msg) {
+                    //alert(msg);
+                }
+            });
+        }
+
+        // submit product through ajax
+        $(document).ready(function() {
+            $('#btnAddProduct').click(function() {
+                // get user data
+                let product_id = $('#product_id').val();
+                let quantity = $('#quantity').val();
+
+                validate_form(product_id, quantity);
+
+                submit_form('add', product_id, quantity);
+            });
+
+            $('.btnRemoveProduct').click(function(e) {
+                e.preventDefault();
+
+                let product_id = $(this).attr('data-product-id');
+
+                submit_form('remove', product_id, null);
+            });
+        });
+    </script>
 @endsection

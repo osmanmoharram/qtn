@@ -47,4 +47,9 @@ Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () 
     Route::resource('proposals', 'Store\ProposalController');
 
     Route::resource('orders', 'Store\OrderController');
+
+    // ajax routes
+    Route::post('requests/{request}/edit', 'Store\RequestController@updateProductAjax');
+    Route::post('proposals/{proposal}/edit', 'Store\ProposalController@updateProductAjax');
+    Route::post('orders/{order}/edit', 'Store\OrderController@updateProductAjax');
 });

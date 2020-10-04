@@ -41,7 +41,7 @@
 
     </div>
 
-    {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Save User', array('class' => 'btn btn-primary btn-block btn-lg mt-5')) }}
 
     {{ Form::close() }}
 

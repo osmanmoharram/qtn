@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\Product;
 use App\Models\Store\Order;
 use App\Models\Store\Supplier;
 use Exception;
@@ -31,19 +32,13 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $suppliers = [];
+        $suppliers = Supplier::all()->pluck('name', 'id')->toArray();
 
-        foreach (Supplier::all() as $supplier) {
-            $suppliers[$supplier->id] = $supplier->name;
-        }
+        $employees = Employee::all()->pluck('user.name', 'id')->toArray();
 
-        $employees = [];
+        $products = Product::all()->pluck('name', 'id')->toArray();
 
-        foreach (Employee::all() as $employee) {
-            $employees[$employee->id] = $employee->user->name;
-        }
-
-        return view('store_module.orders.create', compact('suppliers', 'employees'));
+        return view('store_module.orders.create', compact('suppliers', 'employees', 'products'));
     }
 
     /**
@@ -61,7 +56,10 @@ class OrderController extends Controller
             'issued_at' => 'required|date',
             'status' => 'required|in:awaiting,online,received,stored',
             'payment_receipt' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
-            'tax' => 'nullable|numeric'
+            'tax' => 'nullable|numeric',
+            'products.*.product_id' => 'required|numeric',
+            'products.*.quantity' => 'required|numeric',
+            'products.*.unit_price' => 'required|numeric'
         ]);
 
         $order = Order::create([
@@ -69,9 +67,14 @@ class OrderController extends Controller
             'employee_id' => $request->employee_id,
             'issued_at' => $request->issued_at,
             'status' => $request->status,
-            //'payment_receipt' => $request->payment_receipt,
+            'payment_receipt' => $request->payment_receipt,
             'tax' => $request->tax
         ]);
+
+        // add products if any
+        foreach ($request->products as $product) {
+            $order->products()->attach($product['product_id'], ['quantity' => $product['quantity'], 'unit_price' => $product['unit_price']]);
+        }
 
         // upload receipt copy if any
         if($request->hasFile('payment_receipt')) {
@@ -81,7 +84,7 @@ class OrderController extends Controller
             $order->save();
         }
 
-        return redirect()->route('orders.index')
+        return redirect()->route('orders.show', [$order])
             ->with('flash_message', 'Order created successfully.');
     }
 
@@ -104,19 +107,13 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $suppliers = [];
+        $suppliers = Supplier::all()->pluck('name', 'id')->toArray();
 
-        foreach (Supplier::all() as $supplier) {
-            $suppliers[$supplier->id] = $supplier->name;
-        }
+        $employees = Employee::all()->pluck('user.name', 'id')->toArray();
 
-        $employees = [];
+        $products = Product::all()->pluck('name', 'id')->toArray();
 
-        foreach (Employee::all() as $employee) {
-            $employees[$employee->id] = $employee->user->name;
-        }
-
-        return view('store_module.orders.edit', ['order' => $order, 'suppliers' => $suppliers, 'employees' => $employees]);
+        return view('store_module.orders.edit', ['order' => $order, 'suppliers' => $suppliers, 'employees' => $employees, 'products' => $products]);
     }
 
     /**
@@ -135,10 +132,22 @@ class OrderController extends Controller
             'issued_at' => 'required|date',
             'status' => 'required|in:awaiting,online,received,stored',
             'payment_receipt' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
-            'tax' => 'nullable|numeric'
+            'tax' => 'nullable|numeric',
+            'product.*.product_id' => 'required|numeric',
+            'product.*.quantity' => 'required|numeric',
+            'product.*.unit_price' => 'required|numeric',
         ]);
 
         $order->fill($validated_fields)->save();
+
+        if($request->has('product_id')) {
+
+            // remove existing products first
+            $order->products()->detach();
+
+            // add product
+            $order->products()->attach($request->product_id, ['quantity' => $request->quantity, 'unit_price' => $request->unit_price]);
+        }
 
         // upload receipt copy if any
         if($request->hasFile('payment_receipt')) {
@@ -165,5 +174,29 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')
             ->with('flash_message', 'Order deleted successfully.');
+    }
+
+    public function updateProductAjax(Request $request, Order $order)
+    {
+        if($request->action == 'add') {
+            // remove product if already there
+            if($order->products->pluck('id')->contains($request->product_id)) {
+                $order->products()->detach($request->product_id);
+            }
+
+            // add product
+            $order->products()->attach($request->product_id, ['quantity' => $request->quantity, 'unit_price' => $request->unit_price]);
+
+            $request->session()->flash('flash_message', 'Product added successfully.');
+
+            return json_encode('Product added successfully');
+        }
+
+        // remove the product
+        $order->products()->detach($request->product_id);
+
+        $request->session()->flash('flash_message', 'Product removed successfully.');
+
+        return json_encode('Product removed successfully');
     }
 }

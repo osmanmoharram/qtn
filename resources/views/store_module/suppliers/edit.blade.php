@@ -31,7 +31,7 @@
         {{ Form::text('address', null, array('class' => 'form-control')) }}
     </div>
 
-    {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Update Supplier', array('class' => 'btn btn-primary btn-block btn-lg mt-5')) }}
 
     {{ Form::close() }}
 
