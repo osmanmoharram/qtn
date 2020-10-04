@@ -8,6 +8,8 @@ use App\Models\Store\Proposal;
 use App\Models\Store\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class Employee extends Model
 {
@@ -26,6 +28,40 @@ class Employee extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public static function createWith($attributes = [])
+    {
+        $attributes = collect($attributes);
+
+        // before we add new employee, we must create a user account for him
+        $user = User::create(
+            array_merge($attributes->only(['name', 'email', 'phone'])->toArray(), [
+                    'password' => Hash::make($password = Str::random(16)),
+            ])
+        );
+
+        // TODO: send randomly generated password to user email or phone
+
+        return static::create([
+          'address' => $attributes['address'],
+          'branch_id' => $attributes['branch_id'],
+          'department_id' => $attributes['department_id'],
+          'is_branch_manager' => $attributes['is_branch_manager'],
+          'is_department_manager' => $attributes['is_department_manager'],
+          'user_id' => $user->id,
+        ]);
+    }
+
+    public function updateWith($attributes = [])
+    {
+        $attributes = collect($attributes);
+
+        $this->user->update($attributes->only(['name', 'email', 'phone'])->toArray());
+
+        $this->update($attributes->only(['address', 'branch_id', 'department_id', 'is_branch_manager', 'is_department_manager'])->toArray());
+
+        return $this;
+    }
 
     public function user()
     {

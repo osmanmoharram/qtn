@@ -16,6 +16,21 @@
         {{ Form::text('name', null, array('class' => 'form-control')) }}
     </div>
 
+    <div class="form-group">
+        {{ Form::label('category_id', 'Category') }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'form-control', 'placeholder' => 'Pick a category...')) }}
+    </div>
+
+    <div class="form-group">
+        {{ Form::label('quantity', 'Quantity') }}
+        {{ Form::number('quantity', null, ['class' => 'form-control', 'min' => 0]) }}
+    </div>
+
+    <div class="form-group">
+        {{ Form::label('description', 'Description') }}
+        {{ Form::textarea('description', null, array('class' => 'form-control')) }}
+    </div>
+
     {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}

@@ -21,6 +21,11 @@
         {{ Form::email('email', '', array('class' => 'form-control')) }}
     </div>
 
+    <div class="form-group">
+        {{ Form::label('phone', 'Phone') }}
+        {{ Form::text('phone', '', array('class' => 'form-control')) }}
+    </div>
+
     <div class='form-group'>
         @foreach ($roles as $role)
             {{ Form::checkbox('roles[]',  $role->id ) }}
@@ -36,7 +41,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('password', 'Confirm Password') }}<br>
+        {{ Form::label('password_confirmation', 'Confirm Password') }}<br>
         {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
 
     </div>

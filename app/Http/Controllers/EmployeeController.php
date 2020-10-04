@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\Branch;
+use App\Models\Department;
 use App\Models\Employee;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -20,29 +25,34 @@ class EmployeeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        return view('employees.create');
+        $branches = Branch::all()->pluck('name', 'id')->toArray();
+        $departments = Department::all()->pluck('name', 'id')->toArray();
+
+        return view('employees.create', ['branches' => $branches, 'departments' => $departments]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param NewEmployeeRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(NewEmployeeRequest $request)
     {
-        //
+        $newEmployee = Employee::createWith($request->validated());
+
+        return Redirect::route('employees.index')->with('flash_message', 'Employee Added !');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Employee $employee
+     * @return \Illuminate\View\View
      */
     public function show(Employee $employee)
     {
@@ -52,34 +62,41 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Employee $employee
+     * @return \Illuminate\View\View
      */
     public function edit(Employee $employee)
     {
-        return view('employees.edit', ['employee' => $employee]);
+        $branches = Branch::all()->pluck('name', 'id')->toArray();
+        $departments = Department::all()->pluck('name', 'id')->toArray();
+
+        return view('employees.edit', ['employee' => $employee, 'branches' => $branches, 'departments' => $departments]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param UpdateEmployeeRequest $request
+     * @param \App\Models\Employee $employee
+     * @return RedirectResponse
      */
-    public function update(Request $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        //
+        $employee->updateWith($request->validated());
+
+        return Redirect::route('employees.index')->with('flash_message', 'Employee Updated !');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Employee $employee
+     * @return RedirectResponse
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+
+        return Redirect::route('employees.index')->with('flash_message', 'Employee Deleted !');
     }
 }

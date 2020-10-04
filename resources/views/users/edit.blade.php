@@ -21,6 +21,11 @@
         {{ Form::email('email', null, array('class' => 'form-control')) }}
     </div>
 
+    <div class="form-group">
+        {{ Form::label('phone', 'Phone') }}
+        {{ Form::text('phone', null, array('class' => 'form-control')) }}
+    </div>
+
     <h5><b>Give Role</b></h5>
 
     <div class='form-group'>
@@ -38,7 +43,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('password', 'Confirm Password') }}<br>
+        {{ Form::label('password_confirmation', 'Confirm Password') }}<br>
         {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
 
     </div>

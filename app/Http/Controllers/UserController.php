@@ -50,12 +50,14 @@ class UserController extends Controller
         $this->validate($request, [
             'name'=>'required|max:128',
             'email'=>'required|email|unique:users',
-            'password'=>'required|min:6|confirmed'
+            'phone' => ['nullable', 'string', 'max:14', 'min:10'],
+            'password'=>'required|min:6|confirmed',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -108,6 +110,7 @@ class UserController extends Controller
         $required_fields = [
             'name'=>'required|max:128',
             'email'=>'required|email|unique:users,email,'.$user->id,
+            'phone' => ['nullable', 'string', 'max:14', 'min:10'],
         ];
 
         if($request->filled('password')) {

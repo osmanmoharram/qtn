@@ -16,6 +16,11 @@
         {{ Form::text('name', '', array('class' => 'form-control')) }}
     </div>
 
+    <div class="form-group">
+        {{ Form::label('location', 'Location') }}
+        {{ Form::text('location', '', array('class' => 'form-control')) }}
+    </div>
+
     {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
