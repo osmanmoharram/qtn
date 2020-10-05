@@ -36,7 +36,15 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Customer::create(
+            $request->validate([
+                'name' => ['required', 'string'],
+                'email' => ['email']
+            ])
+        );
+
+        return redirect()->route('customers.index')
+            ->with('flash_message', 'customer created successfully');
     }
 
     /**
@@ -70,7 +78,16 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $info = 
+
+        $customer->update(
+            $request->validate([
+            'name' => ['required', 'string'],
+            'email' => ['email'],
+        ]));
+
+        return redirect()->route('customers.show', $customer->id)
+            ->with('flash_message', 'customer updated successfully');
     }
 
     /**
@@ -81,6 +98,9 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+
+        return redirect()->back()
+            ->with('flash_message', 'customer deleted succssesfully');
     }
 }

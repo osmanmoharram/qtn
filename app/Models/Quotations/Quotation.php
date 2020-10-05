@@ -4,6 +4,7 @@ namespace App\Models\Quotations;
 
 use App\Models\Department;
 use App\Models\Product;
+use App\Models\Branch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +25,11 @@ class Quotation extends Model
      * @var array|bool
      */
     protected $guarded = [];
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
 
     public function customer()
     {

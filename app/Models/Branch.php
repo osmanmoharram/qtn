@@ -32,4 +32,9 @@ class Branch extends Model
     {
         return $this->hasOne(Employee::class)->where('is_branch_manager', true);
     }
+
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class);
+    }
 }

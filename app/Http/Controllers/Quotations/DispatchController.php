@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Quotations;
 
 use App\Http\Controllers\Controller;
 use App\Models\Quotations\Dispatch;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DispatchController extends Controller
@@ -25,7 +26,9 @@ class DispatchController extends Controller
      */
     public function create()
     {
-        return view('quotations_module.dispatches.create');
+        return view('quotations_module.dispatches.create', [
+            'departments' => Department::all()
+        ]);
     }
 
     /**
@@ -36,7 +39,15 @@ class DispatchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Dispatch::create(
+            $request->validate([
+                'department_id' => ['required', 'exists:departments,id'],
+                'request_date' => ['required', 'date', 'before_or_equal:today']
+            ])
+        );
+
+        return redirect()->route('dispatches.index')
+            ->with('flash_message', 'dispatch created successfully');
     }
 
     /**
@@ -70,7 +81,14 @@ class DispatchController extends Controller
      */
     public function update(Request $request, Dispatch $dispatch)
     {
-        //
+        $dispatch->update(
+            $request->validate([
+                ''
+            ])
+        );
+
+        return redirect()->route('dispatches.show', $dispatch->id)
+            ->with('flash_message', 'dispatch updated successfully');
     }
 
     /**
@@ -81,6 +99,9 @@ class DispatchController extends Controller
      */
     public function destroy(Dispatch $dispatch)
     {
-        //
+        $dispatch->delete();
+
+        return redirect()->route('dispatches.index')
+            ->with('flash_message', 'dispatch deleted successfully');
     }
 }

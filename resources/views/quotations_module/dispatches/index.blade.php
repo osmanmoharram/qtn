@@ -24,6 +24,7 @@
         @foreach ($dispatches as $dispatch)
             <tr>
                 <td>
+                    <a href="{{ route('dispatches.show', $dispatch->id) }}">{{ $dispatch->request_date }}</a>
                     <a href="{{ route('dispatches.edit', $dispatch->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">Edit</a>
 
                     {!! Form::open(['method' => 'DELETE', 'route' => ['dispatches.destroy', $dispatch->id], 'class' => 'd-inline' ]) !!}

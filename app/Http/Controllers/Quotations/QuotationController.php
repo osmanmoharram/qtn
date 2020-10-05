@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Quotations;
 
 use App\Http\Controllers\Controller;
-use App\Models\Quotations\Quotation;
+use App\Models\Quotations\{Customer,Quotation};
+use App\Models\{Department, Product};
 use Illuminate\Http\Request;
 
 class QuotationController extends Controller
@@ -20,12 +21,18 @@ class QuotationController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *@include('partials.errors.permission-failure')
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('quotations_module.quotations.create');
+        $customers = Customer::all()->pluck('name')->toArray();
+
+        $departments = Department::all()->pluck('name')->toArray();
+
+        $products = Product::all()->pluck('name')->toArray();
+
+        return view('quotations_module.quotations.create', compact('customers', 'departments', 'products'));
     }
 
     /**
@@ -36,7 +43,21 @@ class QuotationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $quotation_request = $request->validate([
+            'customer_id' => ['required', 'numeric'],
+            'department_id' => ['required', 'numeric'],
+            'issued_at' => ['required', 'date', 'before_or_equal:today']
+        ]);
+
+        $quotation = Quotation::create([
+            'customer_id' => $quotation_request['customer_id'],
+            'department_id' => $quotation_request['department_id'],
+            'request_date' => $quotation_request['issued_at'],
+            'status' => 'new', 
+        ]);
+
+        return redirect()->route('quotations.index')
+            ->with('flash_message', 'quotation created successfully');
     }
 
     /**
@@ -70,7 +91,25 @@ class QuotationController extends Controller
      */
     public function update(Request $request, Quotation $quotation)
     {
-        //
+        $quotation_request = $request->validate([
+            'customer_id' => ['required', 'numeric'],
+            'department_id' => ['required', 'numeric'],
+            'issued_at' => ['required', 'date', 'before_or_equal:today'],
+            'status' => ['required', 'in:approved,rejected'],
+            'tax' => ['numeric'],
+            'total' => ['numeric'],
+            'validity' => ['numeric']
+        ]);
+
+        $quotation->update([
+            'customer_id' => $quotation_request['customer_id'],
+            'department_id' => $quotation_request['department_id'],
+            'request_date' => $quotation_request['issued_at'],
+            'status' => $quotation_request['status'],
+        ]);
+
+        return redirect()->route('quotations.index')
+            ->with('flash_message', 'quotation created successfully');
     }
 
     /**
@@ -81,6 +120,9 @@ class QuotationController extends Controller
      */
     public function destroy(Quotation $quotation)
     {
-        //
+        $quotation->delete();
+
+        return redirect()->route('quotations.index')
+            ->with('flash_message', 'quotation deleted successfully');
     }
 }

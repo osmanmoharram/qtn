@@ -24,6 +24,7 @@
         @foreach ($quotations as $quotation)
             <tr>
                 <td>
+                    <a href="{{ route('quotations.show', ['quotation' => $quotation->id]) }}">{{ $quotation->request_date }}</a>
                     <a href="{{ route('quotations.edit', $quotation->id) }}" class="btn btn-secondary pull-left" style="margin-right: 3px;">Edit</a>
 
                     {!! Form::open(['method' => 'DELETE', 'route' => ['quotations.destroy', $quotation->id], 'class' => 'd-inline' ]) !!}
