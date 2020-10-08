@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class EmployeeUploadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Branch manager']);
+    }
+
     /**
      * Errors validation array
      *

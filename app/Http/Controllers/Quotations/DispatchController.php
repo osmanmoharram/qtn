@@ -16,6 +16,11 @@ use Illuminate\View\View;
 
 class DispatchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Employee']);
+    }
+
     /**
      * Display a listing of the resource.
      *

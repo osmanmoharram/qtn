@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class SupplierController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Procurement manager']);
+    }
+
     /**
      * Display a listing of the resource.
      *

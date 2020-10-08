@@ -13,6 +13,11 @@ use Illuminate\View\View;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Branch manager']);
+    }
+
     /**
      * Display a listing of the resource.
      *

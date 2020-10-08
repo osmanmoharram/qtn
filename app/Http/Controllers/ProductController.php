@@ -6,14 +6,22 @@ use App\Http\Requests\NewProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Employee|Store manager']);
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -23,7 +31,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create()
     {
@@ -36,7 +44,7 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param NewProductRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(NewProductRequest $request)
     {
@@ -48,8 +56,8 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\View\View
+     * @param Product $product
+     * @return View
      */
     public function show(Product $product)
     {
@@ -59,8 +67,8 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\View\View
+     * @param Product $product
+     * @return View
      */
     public function edit(Product $product)
     {
@@ -73,8 +81,8 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateProductRequest $request
-     * @param \App\Models\Product $product
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Product $product
+     * @return RedirectResponse
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
@@ -86,8 +94,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Product $product
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Product $product)
     {

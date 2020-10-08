@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Models\Branch;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class BranchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -23,7 +30,7 @@ class BranchController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create()
     {
@@ -46,8 +53,8 @@ class BranchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Branch  $branch
-     * @return \Illuminate\View\View
+     * @param Branch $branch
+     * @return View
      */
     public function show(Branch $branch)
     {
@@ -57,8 +64,8 @@ class BranchController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Branch  $branch
-     * @return \Illuminate\View\View
+     * @param Branch $branch
+     * @return View
      */
     public function edit(Branch $branch)
     {
@@ -69,7 +76,7 @@ class BranchController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateBranchRequest $request
-     * @param \App\Models\Branch $branch
+     * @param Branch $branch
      * @return RedirectResponse
      */
     public function update(UpdateBranchRequest $request, Branch $branch)
@@ -82,8 +89,9 @@ class BranchController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Branch  $branch
+     * @param Branch $branch
      * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Branch $branch)
     {

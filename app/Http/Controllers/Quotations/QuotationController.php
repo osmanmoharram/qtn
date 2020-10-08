@@ -16,6 +16,12 @@ use Illuminate\View\View;
 
 class QuotationController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Branch manager|Employee']);
+    }
+
     /**
      * Display a listing of the resource.
      *

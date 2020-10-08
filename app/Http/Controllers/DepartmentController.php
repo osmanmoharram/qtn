@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class DepartmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -23,7 +30,7 @@ class DepartmentController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create()
     {
@@ -46,8 +53,8 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\View\View
+     * @param Department $department
+     * @return View
      */
     public function show(Department $department)
     {
@@ -57,8 +64,8 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\View\View
+     * @param Department $department
+     * @return View
      */
     public function edit(Department $department)
     {
@@ -69,7 +76,7 @@ class DepartmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateDepartmentRequest $request
-     * @param \App\Models\Department $department
+     * @param Department $department
      * @return RedirectResponse
      */
     public function update(UpdateDepartmentRequest $request, Department $department)
@@ -82,8 +89,9 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Department  $department
+     * @param Department $department
      * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Department $department)
     {

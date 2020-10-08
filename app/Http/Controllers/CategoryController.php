@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Employee|Store manager']);
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -23,7 +30,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create()
     {
@@ -46,8 +53,8 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\View\View
+     * @param Category $category
+     * @return View
      */
     public function show(Category $category)
     {
@@ -57,8 +64,8 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\View\View
+     * @param Category $category
+     * @return View
      */
     public function edit(Category $category)
     {
@@ -69,7 +76,7 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateCategoryRequest $request
-     * @param \App\Models\Category $category
+     * @param Category $category
      * @return RedirectResponse
      */
     public function update(UpdateCategoryRequest $request, Category $category)
@@ -82,8 +89,9 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
+     * @param Category $category
      * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Category $category)
     {

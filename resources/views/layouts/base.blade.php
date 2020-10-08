@@ -51,35 +51,57 @@
 {{--                                    <li><a href="#">Add User</a></li>--}}
 {{--                                </ul>--}}
 {{--                            </li>--}}
+                            @role('Super admin')
                             <li class="{{ (Route::is('users.*')) ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fas fa-users fa-fw"></i>Users</a></li>
                             <li class="{{ (Route::is('roles.*')) ? 'active' : '' }}"><a href="{{ route('roles.index') }}"><i class="fas fa-theater-masks fa-fw"></i>Roles</a></li>
                             <li class="{{ (Route::is('permissions.*')) ? 'active' : '' }}"><a href="{{ route('permissions.index') }}"><i class="fas fa-key fa-fw"></i>Permissions</a></li>
                             <li class="{{ (Route::is('branches.*')) ? 'active' : '' }}"><a href="{{ route('branches.index') }}"><i class="fas fa-code-branch fa-fw"></i>Branches</a></li>
                             <li class="{{ (Route::is('departments.*')) ? 'active' : '' }}"><a href="{{ route('departments.index') }}"><i class="far fa-building fa-fw"></i>Departments</a></li>
+                            @endrole
+                            @role('Super admin|Branch manager')
                             <li class="{{ (Route::is('employees.*')) ? 'active' : '' }}"><a href="{{ route('employees.index') }}"><i class="fas fa-user-tie fa-fw"></i>Employees</a></li>
+                            @endrole
+                            @role('Super admin|Employee|Store manager')
                             <li class="{{ (Route::is('categories.*')) ? 'active' : '' }}"><a href="{{ route('categories.index') }}"><i class="fas fa-layer-group fa-fw"></i>Categories</a></li>
                             <li class="{{ (Route::is('products.*')) ? 'active' : '' }}"><a href="{{ route('products.index') }}"><i class="fas fa-cubes fa-fw"></i>Products</a></li>
+                            @endrole
                         </ul>
                     </div><!-- .nav-section -->
 
+                    @role('Super admin|Branch manager|Employee')
                     <div class="nav-section">
                         <h5 class="nav-section-title mb-2">Quotations Module</h5>
                         <ul>
+                            @role('Super admin|Employee')
                             <li class="{{ (Route::is('customers.*')) ? 'active' : '' }}"><a href="{{ route('customers.index') }}"><i class="fas fa-user-alt fa-fw"></i>Customers</a></li>
+                            @endrole
+                            @role('Super admin|Branch manager|Employee')
                             <li class="{{ (Route::is('quotations.*')) ? 'active' : '' }}"><a href="{{ route('quotations.index') }}"><i class="fas fa-file-invoice fa-fw"></i>Quotations</a></li>
-                            <li class="{{ (Route::is('dispatches.*')) ? 'active' : '' }}"><a href="{{ route('dispatches.index') }}"><i class="fas fa-truck-loading fa-fw"></i>Dispatches</a></li>
+                            @endrole
+                            @role('Super admin|Employee')
+                            <li class="{{ (Route::is('dispatches.*')) ? 'active' : '' }}"><a href="{{ route('dispatches.index') }}"><i class="fas fa-truck-loading fa-fw"></i>Dispatches (RTD)</a></li>
+                            @endrole
                         </ul>
                     </div><!-- .nav-section -->
+                    @endrole
 
+                    @role('Super admin|Procurement manager|Store manager')
                     <div class="nav-section">
                         <h5 class="nav-section-title mb-2">Store Module</h5>
                         <ul>
+                            @role('Super admin|Procurement manager')
                             <li class="{{ (Route::is('suppliers.*')) ? 'active' : '' }}"><a href="{{ route('suppliers.index') }}"><i class="fas fa-store fa-fw"></i>Suppliers</a></li>
-                            <li class="{{ (Route::is('requests.*')) ? 'active' : '' }}"><a href="{{ route('requests.index') }}"><i class="fas fa-file-alt fa-fw"></i>Requests</a></li>
+                            @endrole
+                            @role('Super admin|Store manager')
+                            <li class="{{ (Route::is('requests.*')) ? 'active' : '' }}"><a href="{{ route('requests.index') }}"><i class="fas fa-file-alt fa-fw"></i>Requests (RFP)</a></li>
+                            @endrole
+                            @role('Super admin|Procurement manager')
                             <li class="{{ (Route::is('proposals.*')) ? 'active' : '' }}"><a href="{{ route('proposals.index') }}"><i class="fas fa-file-invoice-dollar fa-fw"></i>Proposals</a></li>
                             <li class="{{ (Route::is('orders.*')) ? 'active' : '' }}"><a href="{{ route('orders.index') }}"><i class="fas fa-receipt fa-fw"></i>Orders</a></li>
+                            @endrole
                         </ul>
                     </div><!-- .nav-section -->
+                    @endrole
 
                 </div><!-- .sidebar-nav -->
 
@@ -123,12 +145,18 @@
                             @else
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        <div class="float-left mr-2">
                                         @if(auth()->user()->profile_picture)
                                             <img class="profile-pic" src="{{ asset('storage/img/profiles') }}/{{ Auth::user()->profile_picture }}" alt="Profile Picture">
                                         @else
                                             <img class="profile-pic" src="{{ asset('storage/img/profiles/default.jpg') }}" alt="Profile Picture">
                                         @endif
-                                        {{ Auth::user()->name }} <span class="caret"></span>
+                                        </div>
+                                        <div class="float-left mr-2">
+                                            <span>{{ Auth::user()->name }}</span>
+                                            <span class="small text-muted d-block">{{ Auth::user()->roles[0]->name }}</span>
+                                        </div>
+                                        <span class="caret"></span>
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:Super admin|Employee']);
+    }
+
     /**
      * Display a listing of the resource.
      *
